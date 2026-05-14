@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B10 (Base-4096)</title>
+    <style>
+        :root {
+            --bg-color: #050508;
+            --container-bg: #0f111a;
+            --text-color: #e2e8f0;
+            --accent-color: #a855f7;
+            --accent-glow: rgba(168, 85, 247, 0.4);
+            --input-bg: #161825;
+            --border-color: #2a2d45;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: var(--accent-color);
+            text-shadow: 0 0 20px var(--accent-glow);
+            text-align: center;
+            margin-bottom: 5px;
+            font-size: 2.2em;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 30px;
+            text-align: center;
+            line-height: 1.5;
+            max-width: 650px;
+        }
+
+        .panels-wrapper {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            max-width: 1000px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background-color: var(--container-bg);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--border-color);
+            flex: 1;
+            min-width: 300px;
+            max-width: 450px;
+        }
+
+        .card-title {
+            text-align: center;
+            color: #fff;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            margin-bottom: 8px;
+            font-size: 1.05em;
+            color: #94a3b8;
+        }
+
+        input[type="text"] {
+            background-color: var(--input-bg);
+            border: 2px solid var(--border-color);
+            color: #fff;
+            padding: 12px;
+            font-size: 1.3em;
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        input.error-glow {
+            border-color: #ef4444;
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .color-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        input[type="color"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 60px;
+            height: 60px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: transparent;
+        }
+        input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+        input[type="color"]::-webkit-color-swatch { border: 2px solid var(--border-color); border-radius: 8px; }
+
+        .color-display-box {
+            width: 100%;
+            height: 40px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s;
+        }
+
+        h2 { margin-top: 10px; color: #cbd5e1; font-size: 1.3em;}
+        
+        .dictionary {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
+            gap: 6px;
+            width: 100%;
+            max-width: 1100px;
+            max-height: 600px;
+            overflow-y: auto;
+            margin-bottom: 40px;
+            padding-right: 10px;
+        }
+
+        /* Кастомизация скроллбара для словаря */
+        .dictionary::-webkit-scrollbar {
+            width: 8px;
+        }
+        .dictionary::-webkit-scrollbar-track {
+            background: var(--container-bg);
+            border-radius: 4px;
+        }
+        .dictionary::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 4px;
+        }
+
+        .dict-item {
+            background-color: var(--container-bg);
+            padding: 8px 4px;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: transform 0.1s, border-color 0.1s;
+        }
+
+        .dict-item:hover {
+            transform: scale(1.2);
+            border-color: var(--accent-color);
+            z-index: 10;
+            background-color: var(--input-bg);
+        }
+
+        .dict-symbol {
+            font-size: 1.4em;
+            color: var(--accent-color);
+            margin-bottom: 4px;
+        }
+
+        .dict-number {
+            font-size: 0.65em;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ПОДКЛЮЧЕНИЕ МАССИВА СИМВОЛОВ ИЗ ВНЕШНЕГО ФАЙЛА -->
+    <script src="symbols.js"></script>
+
+    <h1>переводчик B10 (Base-4096)</h1>
+    <p class="subtitle">Позиционная 4096-ричная система. 1 символ = 12 бит данных.<br>Любой RGB цвет (16 миллионов оттенков) записывается ровно <b>двумя</b> символами!</p>
+
+    <div class="panels-wrapper">
+        <!-- Левая карточка: Числа и Дроби -->
+        <div class="card">
+            <h3 class="card-title">Числа и Дроби</h3>
+            <div class="input-group">
+                <label>Десятичные (наши числа):</label>
+                <input type="text" id="decimalInput" placeholder="Например: 1024.5">
+            </div>
+            <div class="input-group">
+                <label>B10 (Base-4096):</label>
+                <input type="text" id="customInput" placeholder="Введите символ">
+            </div>
+        </div>
+
+        <!-- Правая карточка: Магия Цвета -->
+        <div class="card">
+            <h3 class="card-title">RGB Конвертер Цвета</h3>
+            <div class="input-group">
+                <label>Выбери цвет (HEX/RGB):</label>
+                <div class="color-row">
+                    <input type="color" id="colorPicker" value="#a855f7">
+                    <input type="text" id="colorHex" value="#A855F7" style="flex: 1;" maxlength="7">
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Цвет в B10 (ровно 2 знака):</label>
+                <input type="text" id="colorBase4096" placeholder="Двузначный код">
+            </div>
+            <div class="color-display-box" id="colorBox" style="background-color: #a855f7;"></div>
+        </div>
+    </div>
+
+    <h2>Словарь (0 — 4095)</h2>
+    <div class="dictionary" id="dictionary"></div>
+
+    <script>
+        const BASE = 4096n; 
+        
+        // Математические элементы
+        const decimalInput = document.getElementById('decimalInput');
+        const customInput = document.getElementById('customInput');
+        
+        // Цветовые элементы
+        const colorPicker = document.getElementById('colorPicker');
+        const colorHex = document.getElementById('colorHex');
+        const colorBase4096 = document.getElementById('colorBase4096');
+        const colorBox = document.getElementById('colorBox');
+
+        // Создаем шпаргалку (используем symbols из symbols.js)
+        const dictionaryContainer = document.getElementById('dictionary');
+        // Рендерим все 4096 символов через DocumentFragment для производительности
+        const fragment = document.createDocumentFragment();
+        symbols.forEach((sym, index) => {
+            const div = document.createElement('div');
+            div.className = 'dict-item';
+            div.innerHTML = `<div class="dict-symbol">${sym}</div><div class="dict-number">${index}</div>`;
+            fragment.appendChild(div);
+        });
+        dictionaryContainer.appendChild(fragment);
+
+        // ================= ЧИСЛОВОЙ КОНВЕРТЕР =================
+        function toCustomBase(numStr) {
+            let [intStr, fracStr] = numStr.split('.');
+            let resultInt = "0";
+            
+            if (intStr) {
+                try {
+                    let n = BigInt(intStr);
+                    resultInt = "";
+                    if (n === 0n) resultInt = symbols[0];
+                    while (n > 0n) {
+                        let remainder = Number(n % BASE);
+                        resultInt = symbols[remainder] + resultInt;
+                        n = n / BASE;
+                    }
+                } catch (e) { resultInt = "0"; }
+            } else { resultInt = symbols[0]; }
+
+            let resultFrac = "";
+            if (fracStr) {
+                let f = parseFloat("0." + fracStr);
+                let limit = 4; // 4096^4 достаточно для точных дробей
+                while (f > 0.000000001 && resultFrac.length < limit) {
+                    f *= 4096;
+                    let digit = Math.floor(f + 1e-10);
+                    if (digit > 4095) digit = 4095;
+                    resultFrac += symbols[digit];
+                    f -= digit;
+                }
+            }
+            return resultFrac.length > 0 ? resultInt + "." + resultFrac : resultInt;
+        }
+
+        function toDecimalBase(str) {
+            let [intStr, fracStr] = str.split('.');
+            
+            let totalInt = 0n;
+            let intChars = Array.from(intStr || symbols[0]);
+            for (let char of intChars) {
+                let val = symbols.indexOf(char);
+                if (val === -1) return null;
+                totalInt = totalInt * BASE + BigInt(val);
+            }
+            let result = totalInt.toString();
+
+            if (fracStr) {
+                let fracChars = Array.from(fracStr);
+                let fracDecimal = 0;
+                let divisor = 4096;
+                
+                for (let char of fracChars) {
+                    let val = symbols.indexOf(char);
+                    if (val === -1) return null;
+                    fracDecimal += val / divisor;
+                    divisor *= 4096;
+                }
+                
+                if (fracDecimal > 0) {
+                    let cleanFrac = parseFloat(fracDecimal.toFixed(10)).toString();
+                    if (cleanFrac.includes('.')) {
+                        result += "." + cleanFrac.split('.')[1];
+                    }
+                }
+            }
+            return result;
+        }
+
+        decimalInput.addEventListener('input', () => {
+            let val = decimalInput.value.replace(/,/g, '.').replace(/[^\d.]/g, '');
+            let parts = val.split('.');
+            if (parts.length > 2) val = parts[0] + '.' + parts.slice(1).join('');
+            decimalInput.value = val;
+            
+            if (!val) { customInput.value = ''; return; }
+            let res = toCustomBase(val);
+            if (val.endsWith('.')) res += '.';
+            customInput.value = res;
+        });
+
+        customInput.addEventListener('input', () => {
+            let val = customInput.value.replace(/\s+/g, '').replace(/,/g, '.');
+            let parts = val.split('.');
+            if (parts.length > 2) val = parts[0] + '.' + parts.slice(1).join('');
+            customInput.value = val;
+            
+            if (!val) { decimalInput.value = ''; return; }
+            let decimalVal = toDecimalBase(val);
+            if (decimalVal !== null) {
+                if (val.endsWith('.')) decimalVal += '.';
+                decimalInput.value = decimalVal;
+            }
+        });
+
+        // ================= ЦВЕТОВОЙ КОНВЕРТЕР (RGB) =================
+        // RGB = 24 бита. В Base-4096 1 символ = 12 бит. Итого 2 символа.
+        function hexToMystic(hex) {
+            hex = hex.replace('#', '');
+            let colorInt = parseInt(hex, 16);
+            if (isNaN(colorInt)) return '';
+            
+            let s1 = (colorInt >> 12) & 0xFFF; // Старшие 12 бит
+            let s2 = colorInt & 0xFFF;         // Младшие 12 бит
+            return symbols[s1] + symbols[s2];
+        }
+
+        function mysticToHex(mysticStr) {
+            let chars = Array.from(mysticStr);
+            if (chars.length !== 2) return null;
+            
+            let s1 = symbols.indexOf(chars[0]);
+            let s2 = symbols.indexOf(chars[1]);
+            if (s1 === -1 || s2 === -1) return null;
+            
+            let colorInt = (s1 << 12) | s2;
+            return '#' + colorInt.toString(16).padStart(6, '0').toUpperCase();
+        }
+
+        function applyColor(hexStr, skipHexUpdate = false) {
+            colorBox.style.backgroundColor = hexStr;
+            colorPicker.value = hexStr;
+            if(!skipHexUpdate) colorHex.value = hexStr;
+            colorBase4096.value = hexToMystic(hexStr);
+            colorBase4096.classList.remove('error-glow');
+        }
+
+        colorPicker.addEventListener('input', (e) => applyColor(e.target.value.toUpperCase()));
+        
+        colorHex.addEventListener('input', (e) => {
+            let val = e.target.value;
+            if (/^#[0-9A-Fa-f]{6}$/.test(val)) applyColor(val, true);
+        });
+
+        // Слушаем ввод двух символов
+        colorBase4096.addEventListener('input', (e) => {
+            let val = e.target.value.replace(/\s+/g, '');
+            colorBase4096.value = val; 
+            let chars = Array.from(val);
+            
+            if (chars.length === 2) {
+                let hexStr = mysticToHex(val);
+                if (hexStr) {
+                    colorBox.style.backgroundColor = hexStr;
+                    colorPicker.value = hexStr;
+                    colorHex.value = hexStr;
+                    colorBase4096.classList.remove('error-glow');
+                } else {
+                    colorBase4096.classList.add('error-glow');
+                }
+            } else {
+                colorBase4096.classList.add('error-glow');
+            }
+        });
+
+        // Инициализация стартового цвета
+        applyColor('#A855F7');
+
+    </script>
+</body>
+</html>
