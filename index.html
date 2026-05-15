@@ -53,6 +53,10 @@
             margin-bottom: 40px;
         }
 
+        .install-wrapper {
+            max-width: 1000px;
+        }
+
         .card {
             background-color: var(--container-bg);
             padding: 25px;
@@ -62,6 +66,12 @@
             flex: 1;
             min-width: 300px;
             max-width: 450px;
+        }
+
+        /* Специальный класс для широкой карточки (CDN) */
+        .card.full-width {
+            flex: 1 1 100%;
+            max-width: 100%;
         }
 
         .card-title {
@@ -126,7 +136,6 @@
         input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
         input[type="color"]::-webkit-color-swatch { border: 2px solid var(--border-color); border-radius: 8px; }
 
-        /* Новые стили селектов под твой дизайн */
         .custom-select {
             background-color: var(--input-bg);
             border: 2px solid var(--border-color);
@@ -143,7 +152,6 @@
             box-shadow: 0 0 12px var(--accent-glow);
         }
 
-        /* Новые стили панели статов под твой дизайн */
         .stats-box {
             background-color: var(--input-bg);
             border: 2px solid var(--border-color);
@@ -174,6 +182,84 @@
             font-weight: bold;
             color: #e2e8f0;
             letter-spacing: 0.5px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .stat-conclusion-part {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px;
+            border-radius: 6px;
+        }
+        .stat-conclusion-title {
+            font-size: 0.75em;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        /* Блоки кода для установки */
+        .code-block {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9em;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .code-comment {
+            color: #64748b;
+            margin-top: 4px;
+            user-select: none;
+        }
+        .code-comment:first-child {
+            margin-top: 0;
+        }
+        .code-block code {
+            color: #e2e8f0;
+            background: rgba(168, 85, 247, 0.12);
+            padding: 10px 14px;
+            border-radius: 6px;
+            border: 1px solid rgba(168, 85, 247, 0.25);
+            display: block; /* Делаем блочным */
+            overflow-x: auto; /* Скролл по горизонтали, если не влезет */
+            white-space: pre; /* Не переносить строки */
+        }
+        /* Кастомный скроллбар для кода */
+        .code-block code::-webkit-scrollbar { height: 6px; }
+        .code-block code::-webkit-scrollbar-track { background: transparent; }
+        .code-block code::-webkit-scrollbar-thumb { background: var(--accent-color); border-radius: 3px; }
+
+        .links-wrapper {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+        .btn-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            background-color: var(--container-bg);
+            border: 2px solid var(--accent-color);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .btn-link:hover {
+            background-color: var(--accent-color);
+            box-shadow: 0 0 20px var(--accent-glow);
+            transform: translateY(-3px);
         }
 
         h2 { margin-top: 10px; color: #cbd5e1; font-size: 1.3em;}
@@ -190,7 +276,6 @@
             padding-right: 10px;
         }
 
-        /* Кастомизация скроллбара для словаря */
         .dictionary::-webkit-scrollbar { width: 8px; }
         .dictionary::-webkit-scrollbar-track { background: var(--container-bg); border-radius: 4px; }
         .dictionary::-webkit-scrollbar-thumb { background: var(--accent-color); border-radius: 4px; }
@@ -270,6 +355,67 @@
                     <!-- Сюда подгрузится статистика -->
                 </div>
             </div>
+        </div>
+    </div>
+
+    <h2>Установка и использование библиотек</h2>
+    <div class="panels-wrapper install-wrapper">
+        
+        <!-- Python -->
+        <div class="card">
+            <h3 class="card-title">Python (pip)</h3>
+            <div class="code-block">
+                <span class="code-comment"># Цифры</span>
+                <code>pip install num_b10</code>
+                
+                <span class="code-comment"># Цвета</span>
+                <code>pip install clr_b10</code>
+                
+                <span class="code-comment"># Всё вместе</span>
+                <code>pip install full_b10</code>
+            </div>
+        </div>
+
+        <!-- Node.js -->
+        <div class="card">
+            <h3 class="card-title">Node.js (npm)</h3>
+            <div class="code-block">
+                <span class="code-comment">// Цифры</span>
+                <code>npm install b10-num</code>
+                
+                <span class="code-comment">// Цвета</span>
+                <code>npm install b10-clr</code>
+                
+                <span class="code-comment">// Всё вместе</span>
+                <code>npm install b10-full</code>
+            </div>
+        </div>
+
+        <!-- Browser (CDN) - Расширена на всю ширину -->
+        <div class="card full-width">
+            <h3 class="card-title">Browser (CDN)</h3>
+            <div class="code-block">
+                <span class="code-comment">&lt;!-- Цифры --&gt;</span>
+                <code>&lt;script src="https://cdn.jsdelivr.net/gh/oorraanngee/b10@main/num-b10.js"&gt;&lt;/script&gt;</code>
+                
+                <span class="code-comment">&lt;!-- Цвета --&gt;</span>
+                <code>&lt;script src="https://cdn.jsdelivr.net/gh/oorraanngee/b10@main/clr-b10.js"&gt;&lt;/script&gt;</code>
+                
+                <span class="code-comment">&lt;!-- Всё вместе --&gt;</span>
+                <code>&lt;script src="https://cdn.jsdelivr.net/gh/oorraanngee/b10@main/b10-full.js"&gt;&lt;/script&gt;</code>
+            </div>
+        </div>
+    </div>
+
+    <h2>Открытый исходный код</h2>
+    <div class="panels-wrapper">
+        <div class="links-wrapper">
+            <a href="https://github.com/oorraanngee/b10" target="_blank" class="btn-link">
+                📦 Репозиторий библиотек B10
+            </a>
+            <a href="https://github.com/oorraanngee/base-4096" target="_blank" class="btn-link">
+                🌐 Исходный код сайта B10
+            </a>
         </div>
     </div>
 
@@ -469,6 +615,7 @@
             let enc = encodingSelect.value;
             let unit = unitSelect.value;
             
+            // Физический размер текста
             let hBytes = getByteSize(hex, enc);
             let rBytes = getByteSize(rgb, enc);
             let bBytes = getByteSize(b10, enc);
@@ -477,14 +624,21 @@
             let rVal = unit === 'bits' ? rBytes * 8 : rBytes;
             let bVal = unit === 'bits' ? bBytes * 8 : bBytes;
             
+            // Ёмкость (Payload)
+            // И HEX, и RGB, и 2 символа B10 описывают ровно 24 бита цвета (3 байта)
+            let colorPayload = unit === 'bits' ? 24 : 3;
             let payloadVal = unit === 'bits' ? (b10.length * 12) : (b10.length * 12 / 8);
             let uLabel = unit === 'bits' ? 'бит' : 'байт';
 
             let binaryText = getBinaryDump(b10, enc);
 
-            // Динамическое вычисление символов отношения
-            let hexSign = hVal > bVal ? "&gt;" : (hVal < bVal ? "&lt;" : "=");
-            let rgbSign = rVal > bVal ? "&gt;" : (rVal < bVal ? "&lt;" : "=");
+            // Знаки сравнения для "Текста в памяти"
+            let memHexSign = hVal > bVal ? "&gt;" : (hVal < bVal ? "&lt;" : "=");
+            let memRgbSign = rVal > bVal ? "&gt;" : (rVal < bVal ? "&lt;" : "=");
+
+            // Знаки сравнения для "Ёмкости цвета"
+            let payHexSign = colorPayload > payloadVal ? "&gt;" : (colorPayload < payloadVal ? "&lt;" : "=");
+            let payRgbSign = colorPayload > payloadVal ? "&gt;" : (colorPayload < payloadVal ? "&lt;" : "=");
 
             sizeStats.innerHTML = `
                 <div class="stat-line"><span>Текст HEX в памяти:</span> <span class="stat-highlight">${hVal} ${uLabel}</span></div>
@@ -503,8 +657,16 @@
                 <div class="stat-line">
                     <span>Ёмкость цвета (Payload):</span> <span class="stat-win">${payloadVal} ${uLabel}</span>
                 </div>
+                
                 <div class="stat-conclusion">
-                    HEX ${hexSign} B10 &nbsp;&nbsp;|&nbsp;&nbsp; RGB ${rgbSign} B10
+                    <div class="stat-conclusion-part">
+                        <div class="stat-conclusion-title">Текст в памяти</div>
+                        HEX ${memHexSign} B10 &nbsp;&nbsp;|&nbsp;&nbsp; RGB ${memRgbSign} B10
+                    </div>
+                    <div class="stat-conclusion-part">
+                        <div class="stat-conclusion-title">Ёмкость цвета (Payload)</div>
+                        HEX ${payHexSign} B10 &nbsp;&nbsp;|&nbsp;&nbsp; RGB ${payRgbSign} B10
+                    </div>
                 </div>
             `;
         }
