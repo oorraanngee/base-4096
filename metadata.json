@@ -1,0 +1,6 @@
+{
+  "name": "B10 (Base-4096) Translater",
+  "description": "A high-density number and color encoding translator using Base-4096. Includes numeric converters and a color payload payload analysis dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
