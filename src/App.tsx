@@ -360,6 +360,35 @@ export default function App() {
           </div>
         </section>
 
+        <section className="w-full mt-10">
+          <div className="bg-[#0f111a] border border-[#2a2d45] rounded-xl p-6 shadow-[0_10px_30px_rgba(0,0,0,0.8)] relative overflow-hidden flex flex-col md:flex-row items-center gap-6">
+            <div className="absolute top-0 left-0 w-1.5 h-full bg-[#3b82f6] shadow-[0_0_15px_rgba(59,130,246,0.6)]"></div>
+            <div className="flex-1 pl-2">
+              <h2 className="text-2xl text-[#3b82f6] mb-3 font-bold tracking-wide flex items-center gap-2">
+                📎 Партнёрский проект: Fix This Python (FTP)
+              </h2>
+              <p className="text-[#94a3b8] mb-4 leading-relaxed">
+                Fix This Python (FTP) — это умный консольный инструмент, созданный для помощи начинающим программистам. Он сканирует ваш исходный код на наличие распространенных опечаток, таких как забытые двоеточия, ошибки в функции print, и операторы из других ЯП.
+              </p>
+              <div className="mb-2">
+                <h4 className="text-[#e2e8f0] font-semibold mb-2">Ключевые возможности:</h4>
+                <ul className="text-[#cbd5e1] text-sm space-y-1.5 ml-5 list-disc marker:text-[#3b82f6]">
+                  <li>Эвристический поиск опечаток в <code className="bg-[#161825] px-1.5 py-0.5 rounded text-[#93c5fd] font-mono">print()</code></li>
+                  <li>Умная расстановка забытых двоеточий</li>
+                  <li>Автозамена <code className="bg-[#161825] px-1.5 py-0.5 rounded text-[#93c5fd] font-mono">elsif</code> на <code className="bg-[#161825] px-1.5 py-0.5 rounded text-[#93c5fd] font-mono">elif</code></li>
+                  <li>Интерактивный режим подтверждения</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div className="flex-shrink-0 mt-4 md:mt-0">
+              <a href="https://fix-this-python.vercel.app/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center py-3.5 px-7 bg-[#0f111a] border-2 border-[#3b82f6] text-white rounded-xl font-semibold text-lg transition-all hover:bg-[#3b82f6] hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] hover:-translate-y-1 shadow-[0_4px_15px_rgba(0,0,0,0.3)]">
+                🚀 Посетить FTP
+              </a>
+            </div>
+          </div>
+        </section>
+
         <section className="w-full mt-8">
           <h2 className="text-xl text-[#cbd5e1] mb-6 text-center font-semibold tracking-wide">Словарь (0 — 4095)</h2>
           <div className="grid grid-cols-[repeat(auto-fill,minmax(55px,1fr))] gap-1.5 w-full max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
